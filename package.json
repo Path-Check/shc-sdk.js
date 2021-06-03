@@ -13,6 +13,13 @@
     "lib/**/*.js",
     "scripts/**/*.js"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Path-Check/shc-sdk.js"
+  },
+  "bugs": {
+    "url": "https://github.com/Path-Check/shc-sdk.js/issues"
+  },
   "main": "lib/index.js",
   "module": "lib/main.js",
   "dependencies": {
