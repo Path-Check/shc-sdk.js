@@ -15,7 +15,7 @@ npm install @pathcheck/shc-sdk --save
 Generate private and public keys with the provided script: 
 
 ```js
-npm explore @pathcheck/bbs-jxt-sdk -- npm run-script keys
+npm explore @pathcheck/shc-sdk -- npm run-script keys
 ```
 
 The script generates an EC key pair (no certificate) and 3-cert ECDSA chain (root -> CA -> issuer). 
