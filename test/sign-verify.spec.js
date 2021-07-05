@@ -277,3 +277,11 @@ describe('JWS Crypto w/ New Keys', function() {
     expect(result).to.be.true;
   });
 });
+
+describe('JWS Crypto w/ New Keys', function() {
+  it('should sign and verify the package w/ Not Before Date', async function() {
+    const signed = await sign(await makeJWT(TEST_PAYLOAD, 48, "https://pcf.pw", new Date()), GENERATED_PRIVATE_KEY);
+    const result = await verify(signed, GENERATED_PUBLIC_KEY);
+    expect(result).to.be.true;
+  });
+});
