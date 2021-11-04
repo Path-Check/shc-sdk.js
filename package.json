@@ -1,6 +1,6 @@
 {
   "name": "@pathcheck/shc-sdk",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Verifiable QR SDK for Smart Health Cards",
   "scripts": {
     "test": "mocha",
@@ -11,7 +11,7 @@
   "license": "GPL-3.0-only",
   "files": [
     "lib/**/*.js",
-    "scripts/**/*.js", 
+    "scripts/**/*.js",
     "scripts/**/*.sh"
   ],
   "repository": {
