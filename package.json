@@ -5,7 +5,8 @@
   "scripts": {
     "test": "mocha",
     "webpack": "webpack --config webpack.config.js",
-    "keys": "scripts/generate-cert-chain.sh"
+    "keys": "scripts/generate-key-pair.sh",
+    "certs": "scripts/generate-cert-chain.sh"
   },
   "author": "Vitor Pamplona",
   "license": "GPL-3.0-only",
