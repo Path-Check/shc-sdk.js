@@ -242,7 +242,28 @@ describe('Testing SmartCard Examples', function() {
   });
   it('should unpack and verify example 2', async function() {
     const json = await unpackAndVerify(EXAMPLE2_PACKED);
-    expect(json).to.eql(EXAMPLE2_OBJECT);
+    expect(json.credential).to.eql(EXAMPLE2_OBJECT);
+    expect(json.issuer).to.eql({ 
+      displayName: { en: 'Untrusted Issuer: spec.smarthealth.cards/examples/issuer' },
+      entityType: 'issuer',
+      status: 'untrusted',
+      validFromDT: '2021-01-01T01:00:00.000Z',
+      didDocument: {
+        kty: 'EC',
+        kid: 'EBKOr72QQDcTBUuVzAzkfBTGew0ZA16GuWty64nS-sw',
+        use: 'sig',
+        alg: 'ES256',
+        x5c: [
+            "MIICDDCCAZGgAwIBAgIUVJEUcO5ckx9MA7ZPjlsXYGv+98wwCgYIKoZIzj0EAwMwJzElMCMGA1UEAwwcU01BUlQgSGVhbHRoIENhcmQgRXhhbXBsZSBDQTAeFw0yMTA2MDExNTUwMDlaFw0yMjA2MDExNTUwMDlaMCsxKTAnBgNVBAMMIFNNQVJUIEhlYWx0aCBDYXJkIEV4YW1wbGUgSXNzdWVyMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEPQHApUWm94mflvswQgAnfHlETMwJFqjUVSs7WU6LQy7uaPwg77xXlVmMNtFWwkg0L9GrlqLkIOEVfXxx5GwtZKOBljCBkzAJBgNVHRMEAjAAMAsGA1UdDwQEAwIHgDA5BgNVHREEMjAwhi5odHRwczovL3NwZWMuc21hcnRoZWFsdGguY2FyZHMvZXhhbXBsZXMvaXNzdWVyMB0GA1UdDgQWBBTGqQP/SGBzOjWWcDdk/U7bQFhu+DAfBgNVHSMEGDAWgBQ4uufUcLGAmR55HWQWi+6PN9HJcTAKBggqhkjOPQQDAwNpADBmAjEAlZ9TR2TJnhumSUmtmgsWPpcp3xDYUtcXtxHs2xuHU6HqoaBfWDdUJKO8tWljGSVWAjEApesQltBP8ddWIn1BgBpldJ1pq9zukqfwRjwoCH1SRQXyuhGNfovvQMl/lw8MLIyO",
+            "MIICBzCCAWigAwIBAgIUK9wvDGYJ5S9DKzs/MY+IiTa0CP0wCgYIKoZIzj0EAwQwLDEqMCgGA1UEAwwhU01BUlQgSGVhbHRoIENhcmQgRXhhbXBsZSBSb290IENBMB4XDTIxMDYwMTE1NTAwOVoXDTI2MDUzMTE1NTAwOVowJzElMCMGA1UEAwwcU01BUlQgSGVhbHRoIENhcmQgRXhhbXBsZSBDQTB2MBAGByqGSM49AgEGBSuBBAAiA2IABF2eAAAAGv0/isod1xpgaLX0DASxCDs0+JbCt12CTdQhB7os9m9H8c0nLyaNb8lM9IXkBRZLoLly/ZRaRjU8vq3bt6l5m9Cc6OY+xwmADKvNdNm94dsCC5CiB+JQu6WgWKNQME4wDAYDVR0TBAUwAwEB/zAdBgNVHQ4EFgQUOLrn1HCxgJkeeR1kFovujzfRyXEwHwYDVR0jBBgwFoAUJo6aEvlKNnmPfQaKVkOXIDY87/8wCgYIKoZIzj0EAwQDgYwAMIGIAkIBq9tT76Qzv1wH6nB0/sKPN4xPUScJeDv4+u2Zncv4ySWn5BR3DxYxEdJsVk4Aczw8uBipnYS90XNiogXMmN7JbRQCQgEYLzjOB1BdWIzjBlLF0onqnsAQijr6VX+2tfd94FNgMxHtaU864vgD/b3b0jr/Qf4dUkvF7K9WM1+vbcd0WDP4gQ==",
+            "MIICMjCCAZOgAwIBAgIUadiyU9sUFV6H40ZB5pCyc+gOikgwCgYIKoZIzj0EAwQwLDEqMCgGA1UEAwwhU01BUlQgSGVhbHRoIENhcmQgRXhhbXBsZSBSb290IENBMB4XDTIxMDYwMTE1NTAwOFoXDTMxMDUzMDE1NTAwOFowLDEqMCgGA1UEAwwhU01BUlQgSGVhbHRoIENhcmQgRXhhbXBsZSBSb290IENBMIGbMBAGByqGSM49AgEGBSuBBAAjA4GGAAQB/XU90B0DMB6GKbfNKz6MeEIZ2o6qCX76GGiwhPYZyDLgB4+njRHUA7l7KSrv8THtzXSn8FwDmubAZdbU3lwNRGcAQJVY/9Bq9TY5Utp8ttbVnXcHQ5pumzMgIkkrIzERg+iCZLtjgPYjUMgeLWpqQMG3VBNN6LXN4wM6DiJiZeeBId6jUDBOMAwGA1UdEwQFMAMBAf8wHQYDVR0OBBYEFCaOmhL5SjZ5j30GilZDlyA2PO//MB8GA1UdIwQYMBaAFCaOmhL5SjZ5j30GilZDlyA2PO//MAoGCCqGSM49BAMEA4GMADCBiAJCAe/u808fhGLVpgXyg3h/miSnqxGBx7Gav5Xf3iscdZkF9G5SH1G6UPvIS0tvP/2x9xHh2Vsx82OCZH64uPmKPqmkAkIBcUed8q/dQMgUmsB+jT7A7hKz0rh3CvmhW8b4djD3NesKW3M9qXqpRihd+7KqmTjUxhqUckiPBVLVm5wenaj08Ys="
+        ],
+        crv: 'P-256',
+        x: 'PQHApUWm94mflvswQgAnfHlETMwJFqjUVSs7WU6LQy4',
+        y: '7mj8IO-8V5VZjDbRVsJINC_Rq5ai5CDhFX18ceRsLWQ'
+      },
+      credentialType: [ 'https://smarthealth.cards#immunization' ]
+    });
   });
 });
 
@@ -269,11 +290,16 @@ const GENERATED_PUBLIC_KEY = {
       "y": "B_VFOyQ0Rpek9nFqNu5anXT43A--m0MYaPfZ4iCR1xI"
     } 
 
+const CACHED_KEYS = {
+  "https://pcf.pw": {
+    keys: [GENERATED_PUBLIC_KEY]
+  }
+}
 
 describe('JWS Crypto w/ New Keys', function() {
   it('should sign and verify the package', async function() {
     const signed = await sign(await makeJWT(TEST_PAYLOAD, 48, "https://pcf.pw"), GENERATED_PRIVATE_KEY);
-    const result = await verify(signed, GENERATED_PUBLIC_KEY);
+    const result = await verify(signed, CACHED_KEYS);
     expect(result).to.be.true;
   });
 });
@@ -281,7 +307,7 @@ describe('JWS Crypto w/ New Keys', function() {
 describe('JWS Crypto w/ New Keys', function() {
   it('should sign and verify the package w/ Not Before Date', async function() {
     const signed = await sign(await makeJWT(TEST_PAYLOAD, 48, "https://pcf.pw", new Date()), GENERATED_PRIVATE_KEY);
-    const result = await verify(signed, GENERATED_PUBLIC_KEY);
+    const result = await verify(signed, CACHED_KEYS);
     expect(result).to.be.true;
   });
 });
