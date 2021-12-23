@@ -104,7 +104,7 @@ const SIGNED_TEST_PAYLOAD = "eyJ6aXAiOiJERUYiLCJhbGciOiJFUzI1NiIsImtpZCI6IlJ0TkZ
 
 describe('JWS Crypto', function() {
   it('should sign the package', async function() {
-    const signed = await sign(await makeJWT(TEST_PAYLOAD, 48, "https://pcf.pw"), PRIVATE_KEY);
+    const signed = await sign(await makeJWT(TEST_PAYLOAD, "https://pcf.pw"), PRIVATE_KEY);
     expect(signed).to.not.be.null;
     expect(signed.proof).to.not.be.null;
     expect(signed.issuer).to.not.be.null;
@@ -117,7 +117,7 @@ describe('JWS Crypto', function() {
   });
 
   it('should sign and verify the package', async function() {
-    const signed = await sign(await makeJWT(TEST_PAYLOAD, 48, "https://pcf.pw"), PRIVATE_KEY);
+    const signed = await sign(await makeJWT(TEST_PAYLOAD, "https://pcf.pw"), PRIVATE_KEY);
     const result = await verify(signed);
     expect(result).to.be.true;
   });
@@ -298,7 +298,7 @@ const CACHED_KEYS = {
 
 describe('JWS Crypto w/ New Keys', function() {
   it('should sign and verify the package', async function() {
-    const signed = await sign(await makeJWT(TEST_PAYLOAD, 48, "https://pcf.pw"), GENERATED_PRIVATE_KEY);
+    const signed = await sign(await makeJWT(TEST_PAYLOAD, "https://pcf.pw"), GENERATED_PRIVATE_KEY);
     const result = await verify(signed, CACHED_KEYS);
     expect(result).to.be.true;
   });
@@ -306,7 +306,7 @@ describe('JWS Crypto w/ New Keys', function() {
 
 describe('JWS Crypto w/ New Keys', function() {
   it('should sign and verify the package w/ Not Before Date', async function() {
-    const signed = await sign(await makeJWT(TEST_PAYLOAD, 48, "https://pcf.pw", new Date()), GENERATED_PRIVATE_KEY);
+    const signed = await sign(await makeJWT(TEST_PAYLOAD, "https://pcf.pw", new Date()), GENERATED_PRIVATE_KEY);
     const result = await verify(signed, CACHED_KEYS);
     expect(result).to.be.true;
   });
