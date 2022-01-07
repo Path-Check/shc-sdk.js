@@ -106,9 +106,6 @@ describe('JWS Crypto', function() {
   it('should sign the package', async function() {
     const signed = await sign(await makeJWT(TEST_PAYLOAD, "https://pcf.pw"), PRIVATE_KEY);
     expect(signed).to.not.be.null;
-    expect(signed.proof).to.not.be.null;
-    expect(signed.issuer).to.not.be.null;
-    expect(signed.issuanceDate).to.not.be.null;
   });
 
   it('should verify the package', async function() {
@@ -123,12 +120,33 @@ describe('JWS Crypto', function() {
   });
 });
 
-
 describe('JWS Data Minimization', function() {
   it('should pack And unpack', async function() {
     const packed = await pack(SIGNED_TEST_PAYLOAD);
     const unpacked = await unpack(packed);
     expect(unpacked).to.eql(SIGNED_TEST_PAYLOAD);
+  });
+});
+
+describe('Sign And Pack, UnpackAndverify', function() {
+  it('should pack And unpack', async function() {
+    const packed = await signAndPack(await makeJWT(TEST_PAYLOAD, "https://pcf.pw"), GENERATED_PRIVATE_KEY);
+    const result = await unpackAndVerify(packed, CACHED_KEYS);
+    expect(result.credential.vc).to.eql(TEST_PAYLOAD);
+    expect(result.credential.iss).to.eql("https://pcf.pw");
+    expect(result.credential.nbf).to.be.undefined;
+    expect(result.credential.exp).to.be.undefined;
+  });
+
+  it('should pack And unpack with dates', async function() {
+    let nbf = new Date(2021, 11, 02);
+    let exp = new Date(2022, 11, 02);
+    const packed = await signAndPack(await makeJWT(TEST_PAYLOAD, "https://pcf.pw", nbf, exp), GENERATED_PRIVATE_KEY);
+    const result = await unpackAndVerify(packed, CACHED_KEYS);
+    expect(result.credential.vc).to.eql(TEST_PAYLOAD);
+    expect(result.credential.iss).to.eql("https://pcf.pw");
+    expect(new Date(result.credential.nbf*1000)).to.eql(nbf);
+    expect(new Date(result.credential.exp*1000)).to.eql(exp);
   });
 });
 
