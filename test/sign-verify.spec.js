@@ -110,13 +110,13 @@ describe('JWS Crypto', function() {
 
   it('should verify the package', async function() {
     const result = await verify(SIGNED_TEST_PAYLOAD);
-    expect(result).to.be.true;
+    expect(result.status).to.be.eq("verified");
   });
 
   it('should sign and verify the package', async function() {
     const signed = await sign(await makeJWT(TEST_PAYLOAD, "https://pcf.pw"), PRIVATE_KEY);
     const result = await verify(signed);
-    expect(result).to.be.true;
+    expect(result.status).to.be.eq("verified");
   });
 });
 
@@ -132,10 +132,11 @@ describe('Sign And Pack, UnpackAndverify', function() {
   it('should pack And unpack', async function() {
     const packed = await signAndPack(await makeJWT(TEST_PAYLOAD, "https://pcf.pw"), GENERATED_PRIVATE_KEY);
     const result = await unpackAndVerify(packed, CACHED_KEYS);
-    expect(result.credential.vc).to.eql(TEST_PAYLOAD);
-    expect(result.credential.iss).to.eql("https://pcf.pw");
-    expect(result.credential.nbf).to.be.undefined;
-    expect(result.credential.exp).to.be.undefined;
+    expect(result.status).to.be.eq("verified");
+    expect(result.contents.vc).to.eql(TEST_PAYLOAD);
+    expect(result.contents.iss).to.eql("https://pcf.pw");
+    expect(result.contents.nbf).to.be.undefined;
+    expect(result.contents.exp).to.be.undefined;
   });
 
   it('should pack And unpack with dates', async function() {
@@ -143,10 +144,11 @@ describe('Sign And Pack, UnpackAndverify', function() {
     let exp = new Date(2022, 11, 02);
     const packed = await signAndPack(await makeJWT(TEST_PAYLOAD, "https://pcf.pw", nbf, exp), GENERATED_PRIVATE_KEY);
     const result = await unpackAndVerify(packed, CACHED_KEYS);
-    expect(result.credential.vc).to.eql(TEST_PAYLOAD);
-    expect(result.credential.iss).to.eql("https://pcf.pw");
-    expect(new Date(result.credential.nbf*1000)).to.eql(nbf);
-    expect(new Date(result.credential.exp*1000)).to.eql(exp);
+    expect(result.status).to.be.eq("verified");
+    expect(result.contents.vc).to.eql(TEST_PAYLOAD);
+    expect(result.contents.iss).to.eql("https://pcf.pw");
+    expect(new Date(result.contents.nbf*1000)).to.eql(nbf);
+    expect(new Date(result.contents.exp*1000)).to.eql(exp);
   });
 });
 
@@ -248,7 +250,7 @@ const EXAMPLE2_OBJECT = {
 describe('Testing SmartCard Examples', function() {
   it('should verify example 1', async function() {
     const result = await verify(EXAMPLE1_SIGNED);
-    expect(result).to.be.true;
+    expect(result.status).to.be.eq("verified");
   });
   it('should pack example 1', async function() {
     const packed = await pack(EXAMPLE1_SIGNED);
@@ -260,7 +262,7 @@ describe('Testing SmartCard Examples', function() {
   });
   it('should unpack and verify example 2', async function() {
     const json = await unpackAndVerify(EXAMPLE2_PACKED);
-    expect(json.credential).to.eql(EXAMPLE2_OBJECT);
+    expect(json.contents).to.eql(EXAMPLE2_OBJECT);
     expect(json.issuer).to.eql({ 
       displayName: { en: 'Untrusted Issuer: spec.smarthealth.cards/examples/issuer' },
       entityType: 'issuer',
@@ -309,23 +311,19 @@ const GENERATED_PUBLIC_KEY = {
     } 
 
 const CACHED_KEYS = {
-  "https://pcf.pw": {
-    keys: [GENERATED_PUBLIC_KEY]
-  }
+  "https://pcf.pw": { keys: [GENERATED_PUBLIC_KEY] }
 }
 
 describe('JWS Crypto w/ New Keys', function() {
   it('should sign and verify the package', async function() {
     const signed = await sign(await makeJWT(TEST_PAYLOAD, "https://pcf.pw"), GENERATED_PRIVATE_KEY);
     const result = await verify(signed, CACHED_KEYS);
-    expect(result).to.be.true;
+    expect(result.status).to.be.eq("verified");
   });
-});
 
-describe('JWS Crypto w/ New Keys', function() {
   it('should sign and verify the package w/ Not Before Date', async function() {
     const signed = await sign(await makeJWT(TEST_PAYLOAD, "https://pcf.pw", new Date()), GENERATED_PRIVATE_KEY);
     const result = await verify(signed, CACHED_KEYS);
-    expect(result).to.be.true;
+    expect(result.status).to.be.eq("verified");
   });
 });
