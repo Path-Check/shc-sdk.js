@@ -1,6 +1,6 @@
 {
   "name": "@pathcheck/shc-sdk",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "description": "Verifiable QR SDK for Smart Health Cards",
   "scripts": {
     "test": "mocha",

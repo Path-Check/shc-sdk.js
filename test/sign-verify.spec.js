@@ -261,9 +261,9 @@ describe('Testing SmartCard Examples', function() {
     expect(unpacked).to.eql(EXAMPLE1_SIGNED);
   });
   it('should unpack and verify example 2', async function() {
-    const json = await unpackAndVerify(EXAMPLE2_PACKED);
-    expect(json.contents).to.eql(EXAMPLE2_OBJECT);
-    expect(json.issuer).to.eql({ 
+    const result = await unpackAndVerify(EXAMPLE2_PACKED);
+    expect(result.contents).to.eql(EXAMPLE2_OBJECT);
+    expect(result.issuer).to.eql({ 
       displayName: { en: 'Untrusted Issuer: spec.smarthealth.cards/examples/issuer' },
       entityType: 'issuer',
       status: 'untrusted',
